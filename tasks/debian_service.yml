@@ -1,0 +1,28 @@
+---
+- name: "{{ myansible_prefix_task_name }}Create folder Service"
+  file:
+    path: "{{ vcs_agent_service_path }}"
+    state: directory
+    owner: "root"
+    group: "root"
+
+- name: "{{ myansible_prefix_task_name }}Install Service"
+  template:
+    src: "override.conf.j2"
+    dest: "{{ vcs_agent_service_file }}"
+    owner: "root"
+    group: "root"
+  notify: restart_service
+
+- name: "{{ myansible_prefix_task_name }}enable service and ensure it is not masked"
+  systemd:
+    name: vcs-agent
+    enabled: yes
+    masked: no
+    daemon_reload: yes
+
+- name: "{{ myansible_prefix_task_name }}Restart Service {{ vcs_agent_service_name }}"
+  become: true
+  systemd:
+    name: "{{ vcs_agent_service_name }}"
+    state: restarted

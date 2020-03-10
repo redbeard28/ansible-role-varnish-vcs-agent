@@ -1,0 +1,19 @@
+---
+- name: "{{ myansible_prefix_task_name }}Include OS {{ ansible_os_family }} specifics variables."
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- name: "{{ myansible_prefix_task_name }}Install Package"
+  package:
+    name: "{{ item }}"
+    state: present
+    purge: true
+  with_items:
+    - "{{ packages_name }}"
+
+
+
+- name: "{{ myansible_prefix_task_name }}Install Debian Service"
+  include_tasks: "{{ ansible_distribution | lower }}_service.yml"
+  tags:
+    - install
+    - install_service

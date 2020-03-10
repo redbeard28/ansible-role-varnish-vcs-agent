@@ -1,0 +1,7 @@
+---
+packages_name:
+  - varnish-custom-statistics-agent
+
+vcs_agent_service_name: "vcs-agent.service"
+vcs_agent_service_path: "/etc/systemd/system/{{ vcs_agent_service_name }}.d/"
+vcs_agent_service_file: "{{ vcs_agent_service_path }}/override.conf"
